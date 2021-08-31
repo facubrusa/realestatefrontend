@@ -1,42 +1,43 @@
-import * as React from "react"
-import PropTypes from "prop-types"
-import { Link } from "gatsby"
+import React from 'react';
+import { Link, useStaticQuery, graphql } from 'gatsby';
+import { css } from '@emotion/react';
+import Navegation from './navegation';
+const Header = () => {
 
-const Header = ({ siteTitle }) => (
-  <header
-    style={{
-      background: `rebeccapurple`,
-      marginBottom: `1.45rem`,
-    }}
-  >
-    <div
-      style={{
-        margin: `0 auto`,
-        maxWidth: 960,
-        padding: `1.45rem 1.0875rem`,
-      }}
-    >
-      <h1 style={{ margin: 0 }}>
-        <Link
-          to="/"
-          style={{
-            color: `white`,
-            textDecoration: `none`,
-          }}
-        >
-          {siteTitle}
-        </Link>
-      </h1>
-    </div>
-  </header>
-)
+    // Get the logo.svg
+    
+    const { logo } = useStaticQuery(graphql`
+        query {
+            logo: file(relativePath: { eq: "logo.svg"}) {
+                publicURL
+            }
+        }
+    `);
+    
+    return ( 
+        <header css={css`
+            background-color: #0D283B;
+            padding: 1rem;
+        `}>
+            <div css={css`
+                max-width: 120rem;
+                margin: 0 auto;
+                text-align: center;
 
-Header.propTypes = {
-  siteTitle: PropTypes.string,
+                @media (min-width: 768px) {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                }
+            `}>
+                <Link to={'/'}>
+                    <img src={logo.publicURL} alt="logo real estates" />
+                </Link>
+
+                <Navegation />
+            </div>
+        </header>
+    );
 }
-
-Header.defaultProps = {
-  siteTitle: ``,
-}
-
-export default Header
+ 
+export default Header;

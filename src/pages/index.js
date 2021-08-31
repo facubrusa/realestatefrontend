@@ -1,29 +1,49 @@
-import * as React from "react"
-import { Link } from "gatsby"
-import { StaticImage } from "gatsby-plugin-image"
+import React from 'react';
+import Layout from '../components/layout';
+import useIndex from '../hooks/useIndex';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+import BackgroundImage from 'gatsby-background-image';
+import * as heroCSS from '../css/hero.module.css';
+import IndexBanner from '../components/indexBanner';
+import ListProperties from '../components/listProperties';
 
-import Layout from "../components/layout"
-import Seo from "../components/seo"
+const ImageBackground = styled(BackgroundImage)`
+    height: 600px;
+`;
 
-const IndexPage = () => (
-  <Layout>
-    <Seo title="Home" />
-    <h1>Hi people</h1>
-    <p>Welcome to your new Gatsby site.</p>
-    <p>Now go build something great.</p>
-    <StaticImage
-      src="../images/gatsby-astronaut.png"
-      width={300}
-      quality={95}
-      formats={["AUTO", "WEBP", "AVIF"]}
-      alt="A Gatsby astronaut"
-      style={{ marginBottom: `1.45rem` }}
-    />
-    <p>
-      <Link to="/page-2/">Go to page 2</Link> <br />
-      <Link to="/using-typescript/">Go to "Using TypeScript"</Link>
-    </p>
-  </Layout>
-)
+const Index = () => {
+    let dataIndex = useIndex();
+    const { name, content, image } = dataIndex;
+    return ( 
+        <Layout>
+                <ImageBackground
+                    tag="section"
+                    fluid={image.localFile.childImageSharp.fluid}
+                    fadeIn="soft"
+                >
+                    <div className={heroCSS.imagebg}>
+                        <h1 className={heroCSS.title}>Sale of exclusive houses and apartments</h1>
+                    </div>
+                </ImageBackground>
+            
+            <main>
+                <div css={css`
+                    max-width: 800px;
+                    margin: 0 auto;
+                `}>
+                    <h1>{name}</h1>
+                    <p css={css`
+                        text-align: center;
+                    `}>{content}</p>
+                </div>
+            </main>
 
-export default IndexPage
+            <IndexBanner />
+
+            <ListProperties />
+        </Layout>
+    );
+}
+ 
+export default Index;
